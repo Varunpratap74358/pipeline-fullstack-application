@@ -1,4 +1,4 @@
-name: Test Runner
+name: Deploy
 
 on:
   push:
@@ -6,14 +6,23 @@ on:
       - main
 
 jobs:
-  test:
+  deploy:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Check Environment
+      - name: Check Runner
         run: |
           whoami
           pwd
           ls -la
+
+      - name: Deploy Docker
+        run: |
+          cd /home/varun/devops-practice/pipeline-fullstack-application
+
+          docker compose down || true
+
+          docker compose up -d --build
