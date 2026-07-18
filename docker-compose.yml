@@ -1,39 +1,23 @@
-version: "3.9"
+name: Deploy
 
-services:
-  backend:
-    build:
-      context: ./backend
+on:
+  push:
+    branches:
+      - main
 
-    container_name: pipeline-backend
+jobs:
+  deploy:
+    runs-on: self-hosted
 
-    restart: always
+    steps:
+      - name: Deploy
+        run: |
+          cd /home/varun/devops-practice/pipeline-fullstack-application
 
-    ports:
-      - "5001:8080"
+          git fetch --all
 
-    environment:
-      NODE_ENV: production
+          git reset --hard origin/main
 
-    networks:
-      - appnetwork
+          docker compose down || true
 
-  frontend:
-    build:
-      context: ./frontend
-
-    container_name: pipeline-frontend
-
-    restart: always
-
-    depends_on:
-      - backend
-
-    ports:
-      - "3001:80"
-
-    networks:
-      - appnetwork
-
-networks:
-  appnetwork: 
+          docker compose up -d --build
