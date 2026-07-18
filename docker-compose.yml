@@ -36,4 +36,4 @@ services:
       - appnetwork
 
 networks:
-  appnetwork:
+  appnetwork: 
