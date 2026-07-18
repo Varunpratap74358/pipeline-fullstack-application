@@ -1,18 +1,16 @@
 version: "3.9"
 
 services:
-
   backend:
-
     build:
       context: ./backend
 
-    container_name: backend
+    container_name: pipeline-backend
 
     restart: always
 
     ports:
-      - "8080:8080"
+      - "5001:8080"
 
     environment:
       NODE_ENV: production
@@ -21,11 +19,10 @@ services:
       - appnetwork
 
   frontend:
-
     build:
       context: ./frontend
 
-    container_name: frontend
+    container_name: pipeline-frontend
 
     restart: always
 
@@ -33,11 +30,10 @@ services:
       - backend
 
     ports:
-      - "80:80"
+      - "3001:80"
 
     networks:
       - appnetwork
 
 networks:
-
   appnetwork:
