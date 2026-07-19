@@ -7,22 +7,20 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted 
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Deploy
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: root
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/varun/devops-practice/pipeline-fullstack-application
 
-      - name: Check Runner
-        run: |
-          whoami
-          pwd
-          ls -la
+            git fetch --all
+            git reset --hard origin/main
 
-      - name: Deploy Docker
-        run: |
-          cd /home/varun/devops-practice/pipeline-fullstack-application
-
-          docker compose down || true
-
-          docker compose up -d --build
+            docker compose down || true
+            docker compose up -d --build
