@@ -13,8 +13,8 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: root
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/varun/devops-practice/pipeline-fullstack-application
